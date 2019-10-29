@@ -45,7 +45,13 @@ class Cryptor:
 
             a = len(self.dictionary) / 2 -1
 
-            noize = rand(1, (len(self.dictionary) / 2) - 3)
+            noizeCupLetter = 0
+            if text1Letter > text2Letter:
+                noizeCupLetter = text1Letter
+            else:
+                noizeCupLetter = text2Letter
+
+            noize = rand(1, (len(self.dictionary) / 2) - noizeCupLetter)  #TODO bug if noize > 2
             encryptedLetter = (text1Letter + text2Letter + noize) # index 1 + index 2 + noize rand(1,len(self.dictionary))
             
             if text1Letter != None:
