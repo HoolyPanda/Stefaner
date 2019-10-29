@@ -1,4 +1,4 @@
-import Model.dictionary as dictionary
+import dictionary as dictionary
 from random import randint as rand
 
 
@@ -45,7 +45,7 @@ class Cryptor:
 
             a = len(self.dictionary) / 2 -1
 
-            noize = rand(1, (len(self.dictionary) / 2) - 1)
+            noize = rand(1, (len(self.dictionary) / 2) - 3)
             encryptedLetter = (text1Letter + text2Letter + noize) # index 1 + index 2 + noize rand(1,len(self.dictionary))
             
             if text1Letter != None:

@@ -1,4 +1,4 @@
-import Model.cryptor as Cryptor
+import cryptor as Cryptor
 
 # DEMO
 a = Cryptor.Cryptor()
