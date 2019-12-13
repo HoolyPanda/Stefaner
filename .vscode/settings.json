@@ -1,5 +1,6 @@
 {
     "editor.fontFamily": "'terminus', 'monospace', monospace, 'Droid Sans Fallback'",
     "editor.fontWeight": "900",
-    "debug.openExplorerOnEnd": true
+    "debug.openExplorerOnEnd": true,
+    "python.pythonPath": "/bin/python"
 }
