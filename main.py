@@ -23,10 +23,12 @@ for row in range(1, rows + 1):
         a.Decrypt(encryptedText= a.et, key= a.keys[0])
         a.Decrypt(encryptedText= a.et, key= a.keys[1])
         a.Decrypt(encryptedText= a.et, key= a.keys[2])
-        for column in range(1, columns + 1):
-            t = a.keys[column - 1]
-            output.cell(row, column).value = t
-        output.cell(row, 4).value = a.et
+        h = output.cell(row, 4)
+        if output.cell(row, 4).value == None:
+            for column in range(1, columns + 1):
+                t = a.keys[column - 1]
+                output.cell(row, column).value = t
+            output.cell(row, 4).value = a.et
         book.save(filename = "./test.xlsx")
         texts = []
 
