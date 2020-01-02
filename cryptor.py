@@ -8,13 +8,19 @@ class Cryptor:
         pass
 
     def getDictionary(self):
-        self.dictionary = 4*dictionary.dictionary
+        self.dictionary = dictionary.dictionary
         pass
 
     def _getLetterNumber(self, letter: str):
-        return self.dictionary.index(letter)
+        # return self.dictionary.keys()[self.dictionary.values().index(letter)] + 1
+        for index, char in self.dictionary.items():
+            if char == letter:
+                return index
+        raise Exception("Буквы \"{letter}\" нет в словаре!".format(letter= letter))
 
     def Encrypt(self, text1: str, text2: str, text3: str):
+        # n =  self._getLetterNumber(' ')
+        
         encryptedText = ""
         text1: str
         text2: str
@@ -29,6 +35,7 @@ class Cryptor:
         text2 = text2.lower().replace('-', ' ')
         text3 = text3.lower().replace('-', ' ')
         texts = [text1, text2, text3]
+        b = len(self.dictionary.items())
         # for i in renge(len(texts)):
         #     texts[i] = texts[].lower().replace('-', ' ')
 
@@ -47,7 +54,6 @@ class Cryptor:
             if letter >= len(text1):
                 text1Letter = self._getLetterNumber(letter=' ')
             else:
-                n = self._getLetterNumber(text1[letter])
                 text1Letter = self._getLetterNumber(letter= text1[letter])
 
             if letter >= len(text2):
@@ -62,46 +68,41 @@ class Cryptor:
 
             a = len(self.dictionary) / 2 - 1
 
-            noizeCupLetter = 0
-            if text1Letter > text2Letter:
-                if text3Letter > text1Letter:
-                    noizeCupLetter = text3Letter
-                else:
-                    noizeCupLetter = text1Letter
-            else:
-                noizeCupLetter = text2Letter
-            # noize = rand(1, (len(self.dictionary) / 3) - noizeCupLetter ) # Noize generation
+            # noizeCupLetter = 0
+            # if text1Letter > text2Letter:
+            #     if text3Letter > text1Letter:
+            #         noizeCupLetter = text3Letter
+            #     else:
+            #         noizeCupLetter = text1Letter
+            # else:
+            #     noizeCupLetter = text2Letter
+            # noize = rand(1, (len(self.dictionary.items())) - noizeCupLetter ) # Noize generation
 
             # index 1 + index 2 + index3 + noize rand(1,len(self.dictionary))
             encryptedLetter = (text1Letter + text2Letter + text3Letter + noize)
+            while encryptedLetter > len(self.dictionary.items()):
+                encryptedLetter -= (len(self.dictionary.items()))
 
             if text1Letter != None:
-                if (text2Letter + text3Letter + noize) >= len(self.dictionary):
-                    decryptKey1 += self.dictionary[(
-                        text2Letter + text3Letter + noize - (len(self.dictionary) + 1))]
-                else:
-                    decryptKey1 += self.dictionary[(
-                        text2Letter + text3Letter + noize)]
+                letter = text2Letter + text3Letter + noize
+                while letter > len(self.dictionary.items()):
+                    letter -= (len(self.dictionary.items()))
+                decryptKey1 += self.dictionary[letter]
 
             if text2Letter != None:
-                a = self.dictionary[text3Letter]
-                if (text1Letter + text3Letter + noize) >= len(self.dictionary):
-                    decryptKey2 += self.dictionary[(
-                        text1Letter + text3Letter + noize - (len(self.dictionary) + 1))]
-                else:
-                    decryptKey2 += self.dictionary[(
-                        text1Letter + text3Letter + noize)]
+                letter = text1Letter + text3Letter + noize
+                while letter > len(self.dictionary.items()):
+                    letter = letter - (len(self.dictionary.items()))
+                decryptKey2 += self.dictionary[letter]
 
             if text3Letter != None:
-                if (text1Letter + text2Letter + noize) >= len(self.dictionary):
-                    decryptKey3 += self.dictionary[(
-                        text1Letter + text2Letter + noize - (len(self.dictionary) + 1))]
-                else:
-                    decryptKey3 += self.dictionary[(
-                        text1Letter + text2Letter + noize)]
+                letter = text1Letter + text2Letter + noize
+                while letter > len(self.dictionary.items()):
+                    letter = letter - (len(self.dictionary.items()))
+                decryptKey3 += self.dictionary[letter]
 
-            if encryptedLetter >= len(self.dictionary):
-                encryptedLetter -= (len(self.dictionary) + 1)
+            while encryptedLetter > len(self.dictionary.items()):
+                encryptedLetter -= (len(self.dictionary.items())) 
             encryptedText += self.dictionary[encryptedLetter]
 
         self.et = encryptedText
@@ -112,21 +113,11 @@ class Cryptor:
 
         # print(noize)
         # print(chr(noize))
-        print("-> Encrypted Text: |", encryptedText, "|")
+        print("-> Encrypted Text:   |", encryptedText, "|")
         print("-> Decription Key 1: |", decryptKey1, "|")
         print("-> Decription Key 2: |", decryptKey2, "|")
         print("-> Decription Key 3: |", decryptKey3, "|\n")
 
-        # decryption test
-        # if self.Decrypt(encryptedText= encryptedText, key= decryptKey1).split(' ') != text1.split(' '):
-        #     s = self.Decrypt(encryptedText = encryptedText, key= decryptKey1).split(' ')
-        #     print("ОШИБКА РАСШИФРОВКИ")
-        
-        # if self.Decrypt(encryptedText= encryptedText, key= decryptKey2) != text2:
-        #     print("ОШИБКА РАСШИФРОВКИ")
-            
-        # if self.Decrypt(encryptedText= encryptedText, key= decryptKey3) != text3:
-        #     print("ОШИБКА РАСШИФРОВКИ")
 
         print("--> Проверка шифроваия")
 
@@ -136,20 +127,26 @@ class Cryptor:
                 print("ОШИБКА ШИФРОВАНИЯ!")
                 print(decrText)
                 print(texts[i])
-                raise Exception
+                raise Exception("Ошибка при проверке шифрования в текста \"{text}\"".format(text= texts[i].strip()))
 
     def Decrypt(self, encryptedText: str, key: str):
         decryptedText = ""
         for letter in range(len(key)):
             encryptedTextLetter = self._getLetterNumber(encryptedText[letter])
             keyLetter = self._getLetterNumber(key[letter])
-            if encryptedTextLetter - keyLetter >= 0:
-                decryptedText += self.dictionary[encryptedTextLetter - keyLetter]
+            # while 
+            # if keyLetter > encryptedTextLetter:
+            #     rawDecrLetter = keyLetter - encryptedTextLetter
+            # else:
+            rawDecrLetter = encryptedTextLetter - keyLetter
+            
+            if rawDecrLetter > 0:
+                decryptedText += self.dictionary[rawDecrLetter]
 
             else:
-                a = len(self.dictionary)
-                decryptedText += self.dictionary[(
-                    len(self.dictionary) - keyLetter) + encryptedTextLetter]
+                dictLen = len(self.dictionary)
+                decryptedText += self.dictionary[rawDecrLetter + len(self.dictionary)]
+                # decryptedText += self.dictionary[33]
 
         print("-> Decrypted Text: ", decryptedText)
         return decryptedText
