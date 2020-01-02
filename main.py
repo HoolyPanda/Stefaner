@@ -31,3 +31,4 @@ for row in range(1, rows + 1):
             output.cell(row, 4).value = a.et
         book.save(filename="./test.xlsx")
         texts = []
+a = input("Нажмите любую клавишу для завершения...")
